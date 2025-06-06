@@ -1,0 +1,13 @@
+import 'package:flutter/material.dart';
+
+class ColorFamily{
+  static const Color skyBlue = Color(0xffD7E3F7);
+  static const Color deepGreen = Color(0xff1C2222);
+  static const Color gray = Color(0xffB7B7B7);
+  static const Color darkGray = Color(0xff2A2A2A);
+  static const Color lightPurple = Color(0xffDFD5EC);
+}
+
+class FontColor{
+  static const Color mainColor = Color(0xffDFD5EC);
+}
