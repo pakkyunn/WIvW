@@ -8,39 +8,32 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
+  List<String> categoryList = ["예능", "로맨스", "스릴러", "SF", "액션", "공포", "미스터리", "추리", "서바이벌", "애니메이션", "코미디", "다큐멘터리"];
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      reverse: true,
-      itemCount: 3,
+    return GridView.builder(
+      padding: EdgeInsets.all(8),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3, // 3열
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
+        childAspectRatio: 1.2, // 버튼+텍스트 비율 조정
+      ),
+      itemCount: categoryList.length,
       itemBuilder: (BuildContext context, int index) {
-        if (index == 0) {
-          return Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              margin: const EdgeInsets.all(8.0),
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: Text(
-                'Hello',
-              ),
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                //TODO 해당 카테고리의 상세페이지로 이동
+              },
+              child: Icon(Icons.star),
             ),
-          );
-        }
-        return Align(
-          alignment: Alignment.centerLeft,
-          child: Container(
-            margin: const EdgeInsets.all(8.0),
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: Text(
-              'Hi!',
-            ),
-          ),
+            SizedBox(height: 8),
+            Text(categoryList[index]),
+          ],
         );
       },
     );

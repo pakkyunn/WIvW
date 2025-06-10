@@ -112,10 +112,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         contents.sort((a, b) => b.createdAt.compareTo(a.createdAt));
                         print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
                       } else if (value == '평점 높은순') {
-                        contents.sort((a, b) => b.star.compareTo(a.star));
+                        contents.sort((a, b) => b.rating.compareTo(a.rating));
                         print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
                       } else if (value == '평점 낮은순') {
-                        contents.sort((a, b) => a.star.compareTo(b.star));
+                        contents.sort((a, b) => a.rating.compareTo(b.rating));
                         print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
                       } else if (value == '최신 시청순') {
                         contents.sort((a, b) => a.date.compareTo(b.date));
@@ -187,7 +187,7 @@ Widget _makeListItem(int index) {
 Widget _ArticleDescription(
   String title,
   String subtitle,
-  String star,
+  String rating,
   String date,
 ) {
   return Column(
@@ -211,7 +211,7 @@ Widget _ArticleDescription(
           style: TextStyle(fontSize: 12.0, color: ColorFamily.skyBlue),
         ),
       ),
-      Text(star, style: TextStyle(fontSize: 12.0, color: ColorFamily.skyBlue)),
+      Text(rating, style: TextStyle(fontSize: 12.0, color: ColorFamily.skyBlue)),
       Text(date, style: TextStyle(fontSize: 12.0, color: ColorFamily.skyBlue)),
     ],
   );

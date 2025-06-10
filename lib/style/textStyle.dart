@@ -12,8 +12,15 @@ class TextStyleFamily {
       color: ColorFamily.white
   );
 
+  /// 강조 텍스트 스타일. size 14, black
+  static TextStyle impactTextStyle = TextStyle(
+      fontFamily: FontFamily.mapleStoryBold,
+      fontSize: 20,
+      color: ColorFamily.white,
+  );
+
   /// 버튼 텍스트 스타일. size 14, black
-  static TextStyle? buttonTextStyle = TextStyle(
+  static TextStyle buttonTextStyle = TextStyle(
       fontFamily: FontFamily.mapleStoryLight,
       fontSize: 14,
       color: ColorFamily.black
