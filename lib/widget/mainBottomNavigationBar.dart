@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wivw/color.dart';
-import 'package:wivw/screen/CategoryScreen.dart';
-import 'package:wivw/screen/HomeScreen.dart';
-import 'package:wivw/screen/SettingScreen.dart';
-import 'package:wivw/screen/WriteScreen.dart';
-import 'package:wivw/widget/MainAppBar.dart';
+import 'package:wivw/style/color.dart';
+import 'package:wivw/screen/categoryScreen.dart';
+import 'package:wivw/screen/homeScreen.dart';
+import 'package:wivw/screen/settingScreen.dart';
+import 'package:wivw/screen/writeScreen.dart';
+import 'package:wivw/widget/mainAppBar.dart';
 
 class MainBottomNavigationBar extends StatefulWidget {
   const MainBottomNavigationBar({super.key});
@@ -39,19 +39,19 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
           destinations: <Widget>[
             NavigationDestination(
               // selectedIcon: SvgPicture.asset('lib/icons/Home.svg'),
-              icon: SvgPicture.asset('lib/icons/Home.svg'),
+              icon: SvgPicture.asset('lib/icons/home.svg'),
               label: 'Home',
             ),
             NavigationDestination(
-              icon: SvgPicture.asset('lib/icons/Write.svg'),
+              icon: SvgPicture.asset('lib/icons/write.svg'),
               label: 'Write',
             ),
             NavigationDestination(
-              icon: SvgPicture.asset('lib/icons/Category.svg'),
+              icon: SvgPicture.asset('lib/icons/category.svg'),
               label: 'Category',
             ),
             NavigationDestination(
-              icon: SvgPicture.asset('lib/icons/Settings.svg'),
+              icon: SvgPicture.asset('lib/icons/settings.svg'),
               label: 'Settings',
             ),
           ],

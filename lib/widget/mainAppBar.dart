@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wivw/color.dart';
-import 'package:wivw/font.dart';
+import 'package:wivw/style/color.dart';
+import 'package:wivw/style/font.dart';
 
 class MainAppBar extends StatefulWidget implements PreferredSizeWidget{
   const MainAppBar({super.key});
@@ -20,7 +20,7 @@ class _MainAppBarState extends State<MainAppBar> {
     return AppBar(
       leading: Padding(
         padding: const EdgeInsets.only(left: 16.0),
-        child: SvgPicture.asset('lib/icons/WIvW.svg'),
+        child: SvgPicture.asset('lib/icons/wIvw.svg'),
       ),
       title: Row(
         children: [

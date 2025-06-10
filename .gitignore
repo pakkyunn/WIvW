@@ -65,3 +65,10 @@ logs/
 # 패키지 매니저
 node_modules/
 venv/
+
+!gradle/wrapper/gradle-wrapper.jar
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build

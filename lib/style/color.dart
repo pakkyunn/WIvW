@@ -6,6 +6,8 @@ class ColorFamily{
   static const Color gray = Color(0xffB7B7B7);
   static const Color darkGray = Color(0xff2A2A2A);
   static const Color lightPurple = Color(0xffDFD5EC);
+  static const Color white = Color(0xffFFFFFF);
+  static const Color black = Color(0xff000000);
 }
 
 class FontColor{

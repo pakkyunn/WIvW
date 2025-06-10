@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:wivw/color.dart';
+import 'package:wivw/style/color.dart';
 
-import '../widget/MainBottomNavigationBar.dart';
+import 'widget/mainBottomNavigationBar.dart';
 
 void main() {
   runApp(const WIvW());
+  ///TODO 로컬에 있는 리스트데이터를 모두 가져오고 프로바이더 등에 저장
 }
 
 class WIvW extends StatefulWidget {
