@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wivw/provider/main_provider.dart';
+import 'package:wivw/screen/mainScreen.dart';
 import 'package:wivw/style/color.dart';
 
 import 'widget/mainBottomNavigationBar.dart';
@@ -18,15 +21,20 @@ class WIvW extends StatefulWidget {
 class _WIvWState extends State<WIvW>{
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: MaterialApp(
-          title: '내가 뭐 봤었더라?',
-          theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: ColorFamily.darkGray, brightness: Brightness.dark),
-              useMaterial3: true
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => MainProvider()),
+        ],
+        child: SafeArea(
+          child: MaterialApp(
+              title: 'WIvW',
+              theme: ThemeData(
+                  colorScheme: ColorScheme.fromSeed(seedColor: ColorFamily.darkGray, brightness: Brightness.dark),
+                  useMaterial3: true
+              ),
+              home: MainScreen()
           ),
-          home: MainBottomNavigationBar()
-      ),
-    );
+        ),
+      );
   }
 }

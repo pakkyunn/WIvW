@@ -10,7 +10,8 @@ import '../style/font.dart';
 import '../style/textStyle.dart';
 
 class WriteScreen extends StatefulWidget {
-  const WriteScreen({super.key});
+  const WriteScreen({super.key, required this.onChange});
+  final void Function(int) onChange;
 
   @override
   State<WriteScreen> createState() => _WriteScreenState();
@@ -134,6 +135,42 @@ class _WriteScreenState extends State<WriteScreen> {
                         decoration: const InputDecoration(
                             border: InputBorder.none,
                             counter: SizedBox()),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                /// 카테고리
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("카테고리",
+                      style: TextStyleFamily.normalTextStyle,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                SizedBox(
+                  height: 50,
+                  width: deviceWidth - 60,
+                  child: Material(
+                    elevation: 0.5,
+                    color: ColorFamily.white,
+                    borderRadius: BorderRadius.circular(15),
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        //TODO 다이얼로그 등으로 카테고리 선택할 수 있도록 창 띄우기
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text("선택된 카테고리 표시",
+                            style: TextStyleFamily.buttonTextStyle,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -304,7 +341,9 @@ class _WriteScreenState extends State<WriteScreen> {
                   ),
                   child: InkWell(
                       splashColor: ColorFamily.gray,
-                      onTap: () {},
+                      onTap: () {
+                        //TODO 작성완료시 작성된 데이터 외에 추가로 저장되어야 하는 값 1.작성일시 2.index값
+                      },
                       borderRadius: BorderRadius.circular(20.0),
                       child: SizedBox(
                           height: 40,

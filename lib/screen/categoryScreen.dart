@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wivw/screen/homeScreen.dart';
+
+import '../enums.dart';
+import '../provider/main_provider.dart';
 
 class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({super.key});
+  const CategoryScreen({super.key, required this.onChange});
+  final void Function(int) onChange;
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  List<String> categoryList = ["예능", "로맨스", "스릴러", "SF", "액션", "공포", "미스터리", "추리", "서바이벌", "애니메이션", "코미디", "다큐멘터리"];
+  List<String> categoryList = CategoryType.values.map((e) => e.type).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +33,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
           children: [
             ElevatedButton(
               onPressed: () {
-                //TODO 해당 카테고리의 상세페이지로 이동
+                Provider.of<MainProvider>(context, listen: false)
+                    .setCategoryIdx(CategoryType.values.firstWhere((e) => e.type == categoryList[index]).value);
+                Provider.of<MainProvider>(context, listen: false).setMainAppBarName(categoryList[index]);
+                //TODO 해당 카테고리의 작품들만 보여주는 리스트 화면으로 이동
+                widget.onChange(0);
               },
               child: Icon(Icons.star),
             ),

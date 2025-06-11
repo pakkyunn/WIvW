@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wivw/provider/main_provider.dart';
 import 'package:wivw/style/color.dart';
 
 import '../model/content_model.dart';
@@ -6,13 +8,15 @@ import '../widget/homeListView.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
+  const HomeScreen({super.key, required this.onChange});
+  final void Function(int) onChange;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  //TODO mainProvider의 categoryIdx의 값에 따라 리스트 목록을 분기. 0인 경우 모두 표시.
+
   bool isDark = false;
 
   List<ContentModel> contents = [
@@ -35,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     '평점 높은순',
     '평점 낮은순',
     '최신 시청순',
-    '옛날 시청순',
+    '과거 시청순',
   ];
   String? selectedValue;
 
@@ -79,66 +83,67 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
           ),
         ),
-        SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             DropdownButtonHideUnderline(
-              child: DropdownButton2<String>(
-                isExpanded: true,
-                hint: Text(
-                  '기본순',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Theme.of(context).hintColor,
-                  ),
-                ),
-                items: items
-                    .map((String item) => DropdownMenuItem<String>(
-                  value: item,
-                  child: Text(
-                    item,
-                    style: const TextStyle(
+              child: Material(
+                child: DropdownButton2<String>(
+                  isExpanded: true,
+                  hint: Text(
+                    '기본순',
+                    style: TextStyle(
                       fontSize: 14,
+                      color: Theme.of(context).hintColor,
                     ),
                   ),
-                ))
-                    .toList(),
-                value: selectedValue,
-                onChanged: (String? value) {
-                  setState(() {
-                    selectedValue = value;
-                      if (value == '기본순') {
-                        contents.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-                        print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
-                      } else if (value == '평점 높은순') {
-                        contents.sort((a, b) => b.rating.compareTo(a.rating));
-                        print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
-                      } else if (value == '평점 낮은순') {
-                        contents.sort((a, b) => a.rating.compareTo(b.rating));
-                        print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
-                      } else if (value == '최신 시청순') {
-                        contents.sort((a, b) => a.date.compareTo(b.date));
-                        print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
-                      } else if (value == '옛날 시청순') {
-                        contents.sort((a, b) => b.date.compareTo(a.date));
-                        print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
-                      }
-                  });
-                },
-                buttonStyleData: const ButtonStyleData(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  height: 40,
-                  width: 140,
-                ),
-                menuItemStyleData: const MenuItemStyleData(
-                  height: 40,
+                  items: items
+                      .map((String item) => DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ))
+                      .toList(),
+                  value: selectedValue,
+                  onChanged: (String? value) {
+                    setState(() {
+                      selectedValue = value;
+                        if (value == '기본순') {
+                          contents.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+                          print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
+                        } else if (value == '평점 높은순') {
+                          contents.sort((a, b) => b.rating.compareTo(a.rating));
+                          print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
+                        } else if (value == '평점 낮은순') {
+                          contents.sort((a, b) => a.rating.compareTo(b.rating));
+                          print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
+                        } else if (value == '최신 시청순') {
+                          contents.sort((a, b) => a.date.compareTo(b.date));
+                          print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
+                        } else if (value == '과거 시청순') {
+                          contents.sort((a, b) => b.date.compareTo(a.date));
+                          print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
+                        }
+                    });
+                  },
+                  buttonStyleData: const ButtonStyleData(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    height: 40,
+                    width: 140,
+                  ),
+                  menuItemStyleData: const MenuItemStyleData(
+                    height: 40,
+                  ),
                 ),
               ),
             ),
           ],
         ),
-        SizedBox(height: 16),
+        SizedBox(height: 8),
         Expanded(
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
