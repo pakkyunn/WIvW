@@ -20,18 +20,18 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isDark = false;
 
   List<ContentModel> contents = [
-    ContentModel(DateTime(DateTime.april),
-        "블랙미러7",
+    ContentModel(0, DateTime(DateTime.april), "",
+        "블랙미러7", 0,
         "미디어와 정보기술의 발달이 인간의 윤리관을 앞서나갔을 때의 부정적인 면을 다룬다. 흔히 미디어는 시대를 비추는 거울이란 표현으로 많이 쓰이는데, 검은 거울이란 전자기기를 껐을 때 검은 화면에 보고 있던 사람 본인의 얼굴이 비친다는 점에서 따왔으며, 드라마의 주제를 잘 함축한 제목이다.",
-        4.8, "스릴러", "546546-54654564"),
-    ContentModel(DateTime(DateTime.august),
-        "하트페어링",
+        "2025. 4. 7. ", 4.8),
+    ContentModel(1, DateTime(DateTime.august), "",
+        "하트페어링", 3,
         "연애는 설렘에서 시작된다. 그렇다면 연애가 결혼이 되려면?! 결혼을 꿈꾸는 청춘남녀들이 한 집에 모였다. 이들은 한 달간 이탈리아와 서울을 오가며 운명적 페어링을 통해 자신만의 평생 짝을 찾아간다.",
-        4.0, "로맨스", "646546-654564"),
-    ContentModel(DateTime(DateTime.december),
-        "히든페이스",
+        "2025. 3. 3. ", 4.0),
+    ContentModel(2, DateTime(DateTime.december), "",
+        "히든페이스", 5,
         "갇혔다 지켜봤다 벗겨졌다, 지휘자 성진(송승헌)이 이끄는 오케스트라의 첼리스트이자 약혼녀 수연(조여정)이 어느 날 영상 편지만을 남겨둔 채 자취를 감춘다.",
-        4.1, "스릴러", "786546-7465454"),
+        "24. 12. 15. ", 4.1),
   ];
 
   final List<String> items = [
@@ -114,19 +114,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       selectedValue = value;
                         if (value == '기본순') {
                           contents.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-                          print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
+                          print("@@: ${contents[0].subtitle}, ${contents[1].subtitle}, ${contents[2].subtitle}");
                         } else if (value == '평점 높은순') {
                           contents.sort((a, b) => b.rating.compareTo(a.rating));
-                          print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
+                          print("@@: ${contents[0].subtitle}, ${contents[1].subtitle}, ${contents[2].subtitle}");
                         } else if (value == '평점 낮은순') {
                           contents.sort((a, b) => a.rating.compareTo(b.rating));
-                          print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
+                          print("@@: ${contents[0].subtitle}, ${contents[1].subtitle}, ${contents[2].subtitle}");
                         } else if (value == '최신 시청순') {
                           contents.sort((a, b) => a.date.compareTo(b.date));
-                          print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
+                          print("@@: ${contents[0].subtitle}, ${contents[1].subtitle}, ${contents[2].subtitle}");
                         } else if (value == '과거 시청순') {
                           contents.sort((a, b) => b.date.compareTo(a.date));
-                          print("@@: ${contents[0].name}, ${contents[1].name}, ${contents[2].name}");
+                          print("@@: ${contents[0].subtitle}, ${contents[1].subtitle}, ${contents[2].subtitle}");
                         }
                     });
                   },

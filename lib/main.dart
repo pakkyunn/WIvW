@@ -1,15 +1,25 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wivw/provider/providers.dart';
 import 'package:wivw/screen/mainScreen.dart';
 import 'package:wivw/style/color.dart';
 import 'package:wivw/utils.dart';
 
+import 'model/content_model.dart';
 import 'widget/mainBottomNavigationBar.dart';
 
-void main() {
-  runApp(const WIvW());
-  ///TODO 로컬에 있는 리스트데이터를 모두 가져오고 프로바이더 등에 저장
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await checkFirstLaunch();
+
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => MainProvider())
+      ],
+      child: const WIvW()));
 }
 
 class WIvW extends StatefulWidget {
@@ -21,10 +31,37 @@ class WIvW extends StatefulWidget {
 
 class _WIvWState extends State<WIvW>{
   @override
+  void initState() {
+    super.initState();
+    loadContentData();
+  }
+
+  Future<void> loadContentData() async {
+    var provider = Provider.of<MainProvider>(context, listen: false);
+    final prefs = await SharedPreferences.getInstance();
+    final List<dynamic> jsonList = jsonDecode(prefs.getString('contentList')!);
+    final List<ContentModel> contentList = jsonList
+        .map((item) => ContentModel.fromJson(item as Map<String, dynamic>))
+        .toList();
+    final contentIndex = prefs.getInt("contentIndex");
+
+    provider.setContentList(contentList);
+    provider.setContentIndex(contentIndex!);
+    print("@@@: ${provider.contentList[0].index}");
+    print("@@@: ${provider.contentList[0].posterPath}");
+    print("@@@: ${provider.contentList[0].review}");
+    print("@@@: ${provider.contentList[0].category}");
+    print("@@@: ${provider.contentList[0].date}");
+    print("@@@: ${provider.contentList[0].createdAt}");
+    print("@@@: ${provider.contentList[0].rating}");
+    print("@@@: ${provider.contentList[0].subtitle}");
+    print("@@@: ${provider.contentIndex}");
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (context) => MainProvider()),
           ChangeNotifierProvider(create: (context) => WriteProvider()),
         ],
         child: SafeArea(
