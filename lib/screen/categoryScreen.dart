@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wivw/screen/homeScreen.dart';
+import 'package:wivw/style/color.dart';
 
 import '../enums.dart';
-import '../provider/main_provider.dart';
+import '../provider/providers.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key, required this.onChange});
@@ -35,7 +36,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               onPressed: () {
                 Provider.of<MainProvider>(context, listen: false)
                     .setCategoryIdx(CategoryType.values.firstWhere((e) => e.type == categoryList[index]).value);
-                Provider.of<MainProvider>(context, listen: false).setMainAppBarName(categoryList[index]);
+                Provider.of<MainProvider>(context, listen: false).setMainAppBarName(categoryList[index], ColorFamily.coral);
                 //TODO 해당 카테고리의 작품들만 보여주는 리스트 화면으로 이동
                 widget.onChange(0);
               },

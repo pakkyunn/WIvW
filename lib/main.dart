@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wivw/provider/main_provider.dart';
+import 'package:wivw/provider/providers.dart';
 import 'package:wivw/screen/mainScreen.dart';
 import 'package:wivw/style/color.dart';
+import 'package:wivw/utils.dart';
 
 import 'widget/mainBottomNavigationBar.dart';
 
@@ -24,6 +25,7 @@ class _WIvWState extends State<WIvW>{
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => MainProvider()),
+          ChangeNotifierProvider(create: (context) => WriteProvider()),
         ],
         child: SafeArea(
           child: MaterialApp(
@@ -32,7 +34,9 @@ class _WIvWState extends State<WIvW>{
                   colorScheme: ColorScheme.fromSeed(seedColor: ColorFamily.darkGray, brightness: Brightness.dark),
                   useMaterial3: true
               ),
-              home: MainScreen()
+              home: DoubleBackToExitWrapper(
+                child: MainScreen(),
+              ),
           ),
         ),
       );

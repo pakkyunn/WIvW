@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 // import 'package:intl/intl.dart';
 // import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-// import 'package:provider/provider.dart';
+// import 'package:provider/providers.dart';
 // import 'package:woo_yeon_hi/dao/d_day_dao.dart';
 // import 'package:woo_yeon_hi/dao/user_dao.dart';
 // import 'package:woo_yeon_hi/dialogs.dart';

@@ -1,6 +1,6 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_svg/svg.dart';
-// import 'package:provider/provider.dart';
+// import 'package:provider/providers.dart';
 // import 'package:wivw/style/color.dart';
 // import 'package:wivw/screen/categoryScreen.dart';
 // import 'package:wivw/screen/homeScreen.dart';
@@ -8,7 +8,7 @@
 // import 'package:wivw/screen/writeScreen.dart';
 // import 'package:wivw/widget/mainAppBar.dart';
 //
-// import '../provider/main_provider.dart';
+// import '../provider/providers.dart';
 //
 // class MainBottomNavigationBar extends StatefulWidget {
 //   const MainBottomNavigationBar(this.selectedIndex, {super.key});

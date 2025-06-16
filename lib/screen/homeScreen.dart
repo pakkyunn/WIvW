@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wivw/provider/main_provider.dart';
+import 'package:wivw/provider/providers.dart';
 import 'package:wivw/style/color.dart';
 
 import '../model/content_model.dart';

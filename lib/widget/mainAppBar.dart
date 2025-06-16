@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:wivw/style/color.dart';
 import 'package:wivw/style/font.dart';
 
-import '../provider/main_provider.dart';
+import '../provider/providers.dart';
 
 class MainAppBar extends StatefulWidget implements PreferredSizeWidget{
   const MainAppBar({super.key});
@@ -27,7 +27,7 @@ class _MainAppBarState extends State<MainAppBar> {
         ),
         title: Row(
           children: [
-            Text('${provider.mainAppBarName} 뭐 봤었더라', style: TextStyle(color: FontColor.mainColor, fontFamily: FontFamily.cafe24Moyamoya)),
+            provider.mainAppBarName, Text(' 뭐 봤었더라', style: TextStyle(color: FontColor.mainColor, fontFamily: FontFamily.cafe24Moyamoya)),
           ],
         ),
       );
