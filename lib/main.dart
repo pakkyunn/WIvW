@@ -43,18 +43,20 @@ class _WIvWState extends State<WIvW>{
     final List<ContentModel> contentList = jsonList
         .map((item) => ContentModel.fromJson(item as Map<String, dynamic>))
         .toList();
+
+    contentList.sort((a, b) => b.index.compareTo(a.index)); // 최근 작성순으로 정렬
     final contentIndex = prefs.getInt("contentIndex");
+
 
     provider.setContentList(contentList);
     provider.setContentIndex(contentIndex!);
-    print("@@@: ${provider.contentList[0].index}");
-    print("@@@: ${provider.contentList[0].posterPath}");
-    print("@@@: ${provider.contentList[0].review}");
-    print("@@@: ${provider.contentList[0].category}");
-    print("@@@: ${provider.contentList[0].date}");
-    print("@@@: ${provider.contentList[0].createdAt}");
+    print("@@@: ${provider.contentList[2].index}");
+    print("@@@: ${provider.contentList[2].posterPath}");
+    print("@@@: ${provider.contentList[2].title}");
+    print("@@@: ${provider.contentList[4].category}");
+    print("@@@: ${provider.contentList[4].review}");
+    print("@@@: ${provider.contentList[0].watchDate}");
     print("@@@: ${provider.contentList[0].rating}");
-    print("@@@: ${provider.contentList[0].subtitle}");
     print("@@@: ${provider.contentIndex}");
   }
 

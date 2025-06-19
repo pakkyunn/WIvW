@@ -35,15 +35,26 @@ class MainProvider extends ChangeNotifier {
     _contentIndex = idx;
     notifyListeners();
   }
+
+  void providerNotify(){
+    notifyListeners();
+  }
 }
 
 class WriteProvider extends ChangeNotifier {
   bool _isEdited = false;
+  int _selectedCategoryType = 0;
 
   bool get isEdited => _isEdited;
+  int get selectedCategoryType => _selectedCategoryType;
 
   void setEditState(bool edit) {
     _isEdited = edit;
+    notifyListeners();
+  }
+
+  void selectCategoryType(int type) {
+    _selectedCategoryType = type;
     notifyListeners();
   }
 }

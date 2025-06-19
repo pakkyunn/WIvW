@@ -9,9 +9,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wivw/enums.dart';
 
 import '../model/content_model.dart';
 import '../provider/providers.dart';
@@ -19,6 +19,7 @@ import '../style/color.dart';
 import '../style/font.dart';
 import '../style/textStyle.dart';
 import '../utils.dart';
+import '../widget/categoryOptionDialog.dart';
 
 class WriteScreen extends StatefulWidget {
   const WriteScreen({super.key, required this.onChange});
@@ -31,12 +32,15 @@ class WriteScreen extends StatefulWidget {
 
 class _WriteScreenState extends State<WriteScreen> {
   String _tempPosterImagePath = "";
-  XFile? _tempPosterImage;
-  String _tempSubtitle = "";
+  String _tempTitle = "";
   int _tempCategory = 0;
+  String _tempCategoryText = "카테고리를 선택해주세요";
   String _tempReview = "";
-  String _tempWatchDate = "";
+  String _tempWatchDate = "날짜를 선택해주세요";
   double _tempRating = 0.0;
+
+  final FocusNode _tempTitleFocusNode = FocusNode();
+  final FocusNode _tempReviewFocusNode = FocusNode();
 
   bool _isKeyboardOpen = false;
 
@@ -171,20 +175,22 @@ class _WriteScreenState extends State<WriteScreen> {
                           style: TextStyleFamily.buttonTextStyle,
                           cursorColor: ColorFamily.black,
                           autofocus: false,
-                          // focusNode: _nickNameFocusNode,
-                          maxLength: 10,
+                          focusNode: _tempTitleFocusNode,
+                          maxLength: 50,
                           // initialValue: tempUserNickname,
                           onChanged: (value) {
                             setState(() {
-                              _tempSubtitle = value;
+                              _tempTitle = value;
                             });
                             provider.setEditState(true);
                           },
                           onFieldSubmitted: (value) {
-                            // Provider.of<WriteProvider>(context, listen: false).setEditState(true);
-                          },
+                            FocusScope.of(context).unfocus();
+                            _tempTitleFocusNode.unfocus();
+                            },
                           onTapOutside: (event) {
                             FocusScope.of(context).unfocus();
+                            _tempTitleFocusNode.unfocus();
                           },
                           // style: TextStyleFamily.smallTitleTextStyle,
                           decoration: const InputDecoration(
@@ -218,22 +224,30 @@ class _WriteScreenState extends State<WriteScreen> {
                       borderRadius: BorderRadius.circular(15),
                       child: InkWell(
                         splashColor: Colors.transparent,
-                        onTap: () {
-                          //TODO 다이얼로그 등으로 카테고리 선택할 수 있도록 창 띄우기
+                        onTap: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (context) => Dialog(
+                              child: CategoryOptionDialog()
+                            ),
+                          );
                           setState(() {
-                            _tempCategory =
-                                1; //TODO 추후 카테고리가 '선택이 되면' 변경하도록 수정
+                            _tempCategory = provider.selectedCategoryType;
                           });
-                          provider.setEditState(
-                            true,
-                          ); //TODO 추후 카테고리가 '선택이 되면' 변경하도록 수정
+                          
+                          if(_tempCategory != 0) {
+                            _tempCategoryText = "${CategoryType.getNameByNumber(_tempCategory)}";
+                            provider.setEditState(
+                              true,
+                            );
+                          }
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15),
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "선택된 카테고리 표시",
+                              _tempCategoryText,
                               style: TextStyleFamily.buttonTextStyle,
                             ),
                           ),
@@ -261,32 +275,37 @@ class _WriteScreenState extends State<WriteScreen> {
                       elevation: 0.5,
                       color: ColorFamily.white,
                       borderRadius: BorderRadius.circular(15),
-                      child: TextFormField(
-                        style: TextStyleFamily.buttonTextStyle,
-                        cursorColor: ColorFamily.black,
-                        // focusNode: _profileMessageFocusNode,
-                        // initialValue: tempProfileMessage,
-                        inputFormatters: [
-                          // LengthLimitingTextInputFormatter(50), // 글자 수 제한
-                          // FilteringTextInputFormatter.deny(RegExp(r'\n')), // 줄바꿈 입력 제한
-                        ],
-                        onChanged: (value) {
-                          setState(() {
-                            _tempReview = value;
-                          });
-                        },
-                        onFieldSubmitted: (value) {
-                          provider.setEditState(true);
-                        },
-                        maxLength: 60,
-                        maxLines: null,
-                        onTapOutside: (event) {
-                          FocusScope.of(context).unfocus();
-                        },
-                        // style: TextStyleFamily.smallTitleTextStyle,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          counterText: "", // 글자 수 카운터 숨김
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: TextFormField(
+                          style: TextStyleFamily.buttonTextStyle,
+                          cursorColor: ColorFamily.black,
+                          focusNode: _tempReviewFocusNode,
+                          // initialValue: tempProfileMessage,
+                          inputFormatters: [
+                            // LengthLimitingTextInputFormatter(50), // 글자 수 제한
+                            // FilteringTextInputFormatter.deny(RegExp(r'\n')), // 줄바꿈 입력 제한
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              _tempReview = value;
+                            });
+                            provider.setEditState(true);
+                          },
+                          // onFieldSubmitted: (value) {
+                          //   provider.setEditState(true);
+                          // },
+                          maxLength: 500,
+                          maxLines: null,
+                          onTapOutside: (event) {
+                            FocusScope.of(context).unfocus();
+                            _tempReviewFocusNode.unfocus();
+                          },
+                          // style: TextStyleFamily.smallTitleTextStyle,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            counterText: "", // 글자 수 카운터 숨김
+                          ),
                         ),
                       ),
                     ),
@@ -339,22 +358,21 @@ class _WriteScreenState extends State<WriteScreen> {
                               ),
                             ),
                             locale: picker.LocaleType.ko,
-                            // currentTime: _selectedDate,
+                            currentTime: _tempWatchDate == "날짜를 선택해주세요"
+                            ? DateTime.now()
+                            : stringToDate(_tempWatchDate),
                             onConfirm: (date) {
                               setState(() {
-                                //   _selectedDate = date;
-                                //   tempUserBirth = dateToString(_selectedDate);
-                                // });
                                 // _nickNameFocusNode.unfocus();
                                 // _profileMessageFocusNode.unfocus();
-                                _tempWatchDate = dateToString(DateTime.now());
+                                _tempWatchDate = dateToStringFull(date);
                               });
                               provider.setEditState(true);
                             },
-                            // onCancel: () {
+                            onCancel: () {
                             //   _nickNameFocusNode.unfocus();
                             //   _profileMessageFocusNode.unfocus();
-                            // },
+                            },
                           );
                         },
                         child: Padding(
@@ -362,7 +380,7 @@ class _WriteScreenState extends State<WriteScreen> {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "선택된 날짜 표시",
+                              _tempWatchDate,
                               style: TextStyleFamily.buttonTextStyle,
                             ),
                           ),
@@ -381,7 +399,7 @@ class _WriteScreenState extends State<WriteScreen> {
                         Text("나의 평점", style: TextStyleFamily.normalTextStyle),
                         const SizedBox(width: 30),
                         Text(
-                          _tempRating.toStringAsFixed(1),
+                          "$_tempRating",
                           style: TextStyleFamily.impactTextStyle,
                         ),
                       ],
@@ -398,14 +416,13 @@ class _WriteScreenState extends State<WriteScreen> {
                       max: 5.0,
                       stepSize: 0.1,
                       value: _tempRating,
-                      interval: 0.5,
                       enableTooltip: false,
                       thumbShape: MyThumbShape(),
                       thumbIcon: Icon(Icons.favorite, color: Colors.pink),
                       // 하트 아이콘
                       onChanged: (dynamic value) {
                         setState(() {
-                          _tempRating = value;
+                          _tempRating = double.parse(value.toStringAsFixed(1));
                         });
                         provider.setEditState(true);
                       },
@@ -424,10 +441,10 @@ class _WriteScreenState extends State<WriteScreen> {
                     child: InkWell(
                       splashColor: ColorFamily.gray,
                       onTap: () {
-                        var newContent = ContentModel(contentIndex, DateTime.now(), _tempPosterImagePath, _tempSubtitle, _tempCategory, _tempReview, _tempWatchDate, _tempRating);
+                        var newContent = ContentModel(contentIndex, _tempPosterImagePath, _tempTitle, _tempCategory, _tempReview, _tempWatchDate, _tempRating);
                         _isAllSubmitted(
                               _tempPosterImagePath,
-                              _tempSubtitle,
+                              _tempTitle,
                               _tempCategory,
                               _tempReview,
                               _tempWatchDate,
@@ -485,13 +502,15 @@ bool _isAllSubmitted(
 }
 
 Future<void> _saveData(BuildContext context, ContentModel model) async {
-  var oldList = Provider.of<MainProvider>(context, listen: false).contentList;
-  var newList = List<ContentModel>.from(oldList)..add(model);
+  var provider = Provider.of<MainProvider>(context, listen: false);
+  var oldList = provider.contentList;
+  var newList = List<ContentModel>.from(oldList)..insert(0, model);
 
   final prefs = await SharedPreferences.getInstance();
   final jsonString = jsonEncode(newList.map((e) => e.toJson()).toList());
   await prefs.setString('contentList', jsonString);
   await prefs.setInt('contentIndex', model.index+1);
+  provider.setContentList(newList);
 }
 
 class MyThumbShape extends SfThumbShape {

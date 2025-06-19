@@ -75,19 +75,34 @@ void showSnackBar(BuildContext context, String message){
 
 /// Datetime 객체를 날짜 저장 형식으로 변환
 String dateToString(DateTime date) {
-  String formattedDay = DateFormat('yyyy. M. d.').format(date);
+  String formattedDay = DateFormat('yy. M. d.').format(date);
   // String year = DateFormat('yyyy').format(date);
   // String month = date.month.toString().padLeft(2, " ");
   // String day = date.day.toString().padLeft(2, " ");
   return formattedDay;
 }
 
-/// 'yyyy. M. d.' 형태의 문자열 날짜 데이터를 DateTime으로 변환
-DateTime stringToDate(String date) {
-  List<String> splitDate = date.split(".");
-  String year = splitDate[0];
-  String month = splitDate[1].replaceAll(" ", "");
-  String day = splitDate[2].replaceAll(" ", "");
+/// Datetime 객체를 날짜 표시 형식으로 변환
+String dateToStringFull(DateTime date) {
+  String formattedDay = DateFormat('yy년 M월 d일').format(date);
+  // String year = DateFormat('yyyy').format(date);
+  // String month = date.month.toString().padLeft(2, " ");
+  // String day = date.day.toString().padLeft(2, " ");
+  return formattedDay;
+}
 
-  return DateTime(int.parse(year), int.parse(month), int.parse(day));
+/// 'yy년 M월 d일' 형태의 문자열 날짜 데이터를 DateTime으로 변환
+DateTime stringToDate(String date) {
+  List<String> splitDate = date.split("년");
+  int year = 2000+int.parse(splitDate[0]) > DateTime.now().year
+  ? 1900+int.parse(splitDate[0])
+  : 2000+int.parse(splitDate[0]);
+
+  splitDate = splitDate[1].split("월");
+  int month = int.parse(splitDate[0].replaceAll(" ", ""));
+
+  splitDate = splitDate[1].split("일");
+  int day = int.parse(splitDate[0].replaceAll(" ", ""));
+
+  return DateTime(year, month, day);
 }

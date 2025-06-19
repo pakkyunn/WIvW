@@ -14,11 +14,21 @@
   Documentary(12, "다큐멘터리");
 
 
-  const CategoryType(this.value, this.type);
-  final int value;
-  final String type;
+  const CategoryType(this.number, this.name);
+  final int number;
+  final String name;
 
-  int? getValueByType(String type) {
-    return CategoryType.values.firstWhere((e) => e.type == type).value;
+  static int? getNumberByName(String name) {
+    for (final e in CategoryType.values) {
+      if (e.name == name) return e.number;
+    }
+    return null;
+  }
+
+  static String? getNameByNumber(int number) {
+    for (final e in CategoryType.values) {
+      if (e.number == number) return e.name;
+    }
+    return null;
   }
 }
