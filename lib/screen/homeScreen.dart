@@ -11,19 +11,15 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import '../utils.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.onChange});
-
-  final void Function(int) onChange;
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  //TODO mainProvider의 categoryIdx의 값에 따라 리스트 목록을 분기. 0인 경우 모두 표시.
-
   final List<String> items = ['최근 작성순', '평점 높은순', '평점 낮은순', '최신 시청순', '과거 시청순'];
-  String? selectedValue;
+  String? sortType;
 
   @override
   Widget build(BuildContext context) {
@@ -92,10 +88,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           )
                           .toList(),
-                      value: selectedValue,
+                      value: sortType,
                       onChanged: (String? value) {
                         setState(() {
-                          selectedValue = value;
+                          sortType = value;
                           if (value == '최근 작성순') {
                             provider.contentList.sort(
                               (a, b) => b.index.compareTo(a.index),
@@ -141,10 +137,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
 Widget _makeListItem(BuildContext context) {
   var provider = Provider.of<MainProvider>(context, listen: false);
+  List<ContentModel> list;
+  if (provider.categoryIdx >= 1 && provider.categoryIdx <= 12) {
+    list = provider.contentList
+        .where((e) => e.category == provider.categoryIdx)
+        .toList();
+  } else {
+    list = provider.contentList;
+  }
   return ListView.builder(
-    // ListTile의 리스트뷰의 높이를 자식 아이템들의 높이에 맞춰 설정
     shrinkWrap: true,
-    itemCount: provider.contentList.length,
+    itemCount: list.length,
     itemBuilder: (context, index) {
       return Column(
         children: [
@@ -159,7 +162,7 @@ Widget _makeListItem(BuildContext context) {
                   AspectRatio(
                     aspectRatio: 1.0,
                     child: Image.file(
-                      File(provider.contentList[index].posterPath),
+                      File(list[index].posterPath),
                     ),
                   ),
                   Expanded(
@@ -169,7 +172,7 @@ Widget _makeListItem(BuildContext context) {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            provider.contentList[index].title,
+                            list[index].title,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -181,7 +184,7 @@ Widget _makeListItem(BuildContext context) {
                           const Padding(padding: EdgeInsets.only(bottom: 2.0)),
                           Expanded(
                             child: Text(
-                              provider.contentList[index].review,
+                              list[index].review,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -200,7 +203,7 @@ Widget _makeListItem(BuildContext context) {
                                 ),
                               ),
                               Text(
-                                "${provider.contentList[index].rating}",
+                                "${list[index].rating}",
                                 style: TextStyle(
                                   fontSize: 12.0,
                                   color: ColorFamily.skyBlue,

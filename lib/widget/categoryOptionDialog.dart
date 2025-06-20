@@ -13,8 +13,7 @@ class CategoryOptionDialog extends StatefulWidget{
 class _CategoryOptionDialogState extends State<CategoryOptionDialog> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<WriteProvider>(builder: (context, provider, child) {
-      return GridView.builder(
+    return GridView.builder(
         shrinkWrap: true,
         padding: EdgeInsets.all(8),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -30,7 +29,7 @@ class _CategoryOptionDialogState extends State<CategoryOptionDialog> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  provider.selectCategoryType(CategoryType.values[index].number);
+                  Provider.of<WriteProvider>(context, listen: false).selectCategoryType(CategoryType.values[index].number);
                   Navigator.of(context).pop();
                 },
                 child: Icon(Icons.star),
@@ -41,7 +40,5 @@ class _CategoryOptionDialogState extends State<CategoryOptionDialog> {
           );
         },
       );
-    }
-    );
   }
 }

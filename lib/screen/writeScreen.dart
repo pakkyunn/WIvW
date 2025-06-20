@@ -22,9 +22,7 @@ import '../utils.dart';
 import '../widget/categoryOptionDialog.dart';
 
 class WriteScreen extends StatefulWidget {
-  const WriteScreen({super.key, required this.onChange});
-
-  final void Function(int) onChange;
+  const WriteScreen({super.key});
 
   @override
   State<WriteScreen> createState() => _WriteScreenState();
@@ -451,7 +449,7 @@ class _WriteScreenState extends State<WriteScreen> {
                             )
                             ? {
                                 _saveData(context, newContent),
-                                widget.onChange(0),
+                                Provider.of<MainProvider>(context).setBottomNavigationIdx(0),
                                 //작성완료 후 메인화면으로 이동
                                 showSnackBar(context, "감상평이 작성되었습니다!"),
                                 provider.setEditState(false),

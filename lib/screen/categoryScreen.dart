@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wivw/model/content_model.dart';
 import 'package:wivw/screen/homeScreen.dart';
 import 'package:wivw/style/color.dart';
 
@@ -7,16 +8,13 @@ import '../enums.dart';
 import '../provider/providers.dart';
 
 class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({super.key, required this.onChange});
-  final void Function(int) onChange;
+  const CategoryScreen({super.key});
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  List<String> categoryList = CategoryType.values.map((e) => e.name).toList();
-
   @override
   Widget build(BuildContext context) {
     return Consumer<MainProvider>(builder: (context, provider, child) {
@@ -28,7 +26,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           crossAxisSpacing: 8,
           childAspectRatio: 1.2, // 버튼+텍스트 비율 조정
         ),
-        itemCount: categoryList.length,
+        itemCount: CategoryType.values.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -36,15 +34,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
               ElevatedButton(
                 onPressed: () {
                   provider.setCategoryIdx(CategoryType.values[index].number);
-                  var list = provider.contentList.where((model) => model.category == provider.categoryIdx).toList();
-                  provider.setContentList(list);
-                  provider.setMainAppBarName(categoryList[index], ColorFamily.coral);
-                  widget.onChange(0);
+                  provider.setMainAppBarName(
+                      CategoryType.values[index].name, ColorFamily.coral);
+                  provider.showBodyScreen(0);
                 },
                 child: Icon(Icons.star),
               ),
               SizedBox(height: 8),
-              Text(categoryList[index]),
+              Text(CategoryType.values[index].name),
             ],
           );
         },

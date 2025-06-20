@@ -5,9 +5,14 @@ import 'package:wivw/style/color.dart';
 class MainProvider extends ChangeNotifier {
   Text _mainAppBarName = Text("내가", style: TextStyle(color: ColorFamily.lightPurple));
   int _categoryIdx = 0;
+  int _bodyIndex = 0;
+  int _bottomNavigationIdx = 0;
 
   Text get mainAppBarName => _mainAppBarName;
   int get categoryIdx => _categoryIdx;
+  int get bodyIndex => _bodyIndex;
+  int get bottomNavigationIdx => _bottomNavigationIdx;
+
 
   void setMainAppBarName(String name, Color color) {
     _mainAppBarName = Text(name, style: TextStyle(color: color),) ;
@@ -16,6 +21,16 @@ class MainProvider extends ChangeNotifier {
 
   void setCategoryIdx(int idx) {
     _categoryIdx = idx;
+    notifyListeners();
+  }
+
+  void showBodyScreen(int index) {
+    _bodyIndex = index;
+    notifyListeners();
+  }
+
+  void setBottomNavigationIdx(int idx) {
+    _bottomNavigationIdx = idx;
     notifyListeners();
   }
 
