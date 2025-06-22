@@ -12,6 +12,8 @@ import 'package:syncfusion_flutter_core/theme.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wivw/enums.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 import '../model/content_model.dart';
 import '../provider/providers.dart';
@@ -60,6 +62,12 @@ class _WriteScreenState extends State<WriteScreen> {
     setState(() {
       contentIndex = Provider.of<MainProvider>(context, listen: false).contentIndex;
     });
+  }
+
+  @override
+  void dispose() {
+    _deleteCache(_tempPosterImagePath);
+    super.dispose();
   }
 
   @override
@@ -438,8 +446,7 @@ class _WriteScreenState extends State<WriteScreen> {
                     ),
                     child: InkWell(
                       splashColor: ColorFamily.gray,
-                      onTap: () {
-                        var newContent = ContentModel(contentIndex, _tempPosterImagePath, _tempTitle, _tempCategory, _tempReview, _tempWatchDate, _tempRating);
+                      onTap: () async {
                         _isAllSubmitted(
                               _tempPosterImagePath,
                               _tempTitle,
@@ -448,8 +455,9 @@ class _WriteScreenState extends State<WriteScreen> {
                               _tempWatchDate,
                             )
                             ? {
-                                _saveData(context, newContent),
-                                Provider.of<MainProvider>(context).setBottomNavigationIdx(0),
+                                _saveData(context, contentIndex, await _cacheToAppStorage(_tempPosterImagePath, _tempTitle), _tempTitle, _tempCategory, _tempReview, _tempWatchDate, _tempRating),
+                                Provider.of<MainProvider>(context, listen: false).showBodyScreen(0),
+                                Provider.of<MainProvider>(context, listen: false).setBottomNavigationIdx(0),
                                 //작성완료 후 메인화면으로 이동
                                 showSnackBar(context, "감상평이 작성되었습니다!"),
                                 provider.setEditState(false),
@@ -499,7 +507,34 @@ bool _isAllSubmitted(
   }
 }
 
-Future<void> _saveData(BuildContext context, ContentModel model) async {
+Future<String> _cacheToAppStorage(String imagePath, String name) async {
+  final appDir = await getApplicationDocumentsDirectory();
+  final fileName = '${DateTime.now().millisecondsSinceEpoch}_$name.webp';
+  final targetPath = '${appDir.path}/$fileName';
+
+  final compressedFile = await FlutterImageCompress.compressAndGetFile(
+    imagePath, // 원본 파일 경로
+    targetPath,
+    quality: 80,
+    minWidth: 300,
+    minHeight: 300,
+    format: CompressFormat.webp,
+  );
+
+  return compressedFile!.path;
+}
+
+Future<void> _saveData(
+    BuildContext context,
+    int index,
+    String posterPath,
+    String title,
+    int category,
+    String review,
+    String watchDate,
+    double rating
+    ) async {
+  var model = ContentModel(index, posterPath, title, category, review, watchDate, rating);
   var provider = Provider.of<MainProvider>(context, listen: false);
   var oldList = provider.contentList;
   var newList = List<ContentModel>.from(oldList)..insert(0, model);
@@ -509,6 +544,25 @@ Future<void> _saveData(BuildContext context, ContentModel model) async {
   await prefs.setString('contentList', jsonString);
   await prefs.setInt('contentIndex', model.index+1);
   provider.setContentList(newList);
+}
+
+Future<void> _deleteCache(String cachePath) async {
+  if (cachePath != "") {
+    final cacheFile = File(cachePath);
+    final parentDir = cacheFile.parent;
+    try {
+      await cacheFile.delete();
+      print('캐시 파일 삭제 완료: $cachePath');
+
+      final contents = parentDir.listSync();
+      if (contents.isEmpty) {
+        await parentDir.delete();
+        print('빈 폴더 삭제 완료: ${parentDir.path}');
+      }
+    } catch (e) {
+      print('파일 삭제 실패: $e');
+    }
+  }
 }
 
 class MyThumbShape extends SfThumbShape {
