@@ -108,17 +108,6 @@ class _WriteScreenState extends State<WriteScreen> {
                               _tempPosterImagePath = pickedFile.path;
                               // posterImage = pickedFile;
                             });
-                            // provider.setImage(XFile(pickedFile.path));
-                            // provider.setMemoryBannerImage(
-                            //     Image.file(File(pickedFile.path), fit: BoxFit.cover));
-                            // var imageName =
-                            //     "${provider.userIdx}_memory_banner_${DateTime.now()}";
-                            // provider.setMemoryBannerImagePath(imageName);
-                            // updateSpecificUserData(provider.userIdx,
-                            //     "memory_banner_image", provider.memoryBannerImagePath);
-                            // updateSpecificUserData(provider.loverIdx,
-                            //     "memory_banner_image", provider.memoryBannerImagePath);
-                            // uploadMemoryBannerImage(provider.image!, imageName);
                           }
                         },
                         child: _tempPosterImagePath == ""
@@ -509,6 +498,8 @@ bool _isAllSubmitted(
 
 Future<String> _cacheToAppStorage(String imagePath, String name) async {
   final appDir = await getApplicationDocumentsDirectory();
+
+  // final fileName = '$name.webp'; //데이터 저장을 위한 임시 파일명
   final fileName = '${DateTime.now().millisecondsSinceEpoch}_$name.webp';
   final targetPath = '${appDir.path}/$fileName';
 
@@ -601,4 +592,38 @@ class MyThumbShape extends SfThumbShape {
       Offset(center.dx - iconSize / 2, center.dy - iconSize / 2),
     );
   }
+}
+
+
+// 테스트 데이터 생성을 위한 메서드
+Future<void> _saveTestData(BuildContext context) async {
+  final List<ContentModel> newList = [
+    ContentModel(0, "/data/user/0/com.pakk.wivw.wivw/app_flutter/놀면 뭐하니?.webp", "놀면 뭐하니?", 1, "유쾌하면서도 실험적인 포맷이 계속 새로워서 보는 재미가 있다.", "2024-06-10", 4.5),
+    ContentModel(1, "/data/user/0/com.pakk.wivw.wivw/app_flutter/피지컬: 100 시즌2.webp", "피지컬: 100 시즌2", 1, "실제 경기처럼 몰입감이 엄청났고, 참가자들의 인간미도 인상 깊었다.", "2023-12-28", 4.0),
+    ContentModel(2, "/data/user/0/com.pakk.wivw.wivw/app_flutter/너의 시간 속으로.webp", "너의 시간 속으로", 2, "과거와 현재를 오가는 스토리가 복잡하지만 애틋함이 잘 전해졌다.", "2020-04-12", 4.2),
+    ContentModel(3, "/data/user/0/com.pakk.wivw.wivw/app_flutter/브리저튼.webp", "브리저튼", 2, "화려한 시대극 배경에 현대적인 로맨스를 녹여낸 감각이 돋보인다.", "2022-01-03", 3.8),
+    ContentModel(4, "/data/user/0/com.pakk.wivw.wivw/app_flutter/클로저.webp", "클로저", 2, "인간관계의 이면과 사랑의 복잡함을 날카롭게 표현한 수작.", "2018-10-16", 4.0),
+    ContentModel(5, "/data/user/0/com.pakk.wivw.wivw/app_flutter/더 나이트 에이전트.webp", "더 나이트 에이전트", 3, "한순간도 긴장을 놓을 수 없는 전개가 몰입도를 극대화한다.", "2019-02-11", 4.3),
+    ContentModel(6, "/data/user/0/com.pakk.wivw.wivw/app_flutter/파운데이션.webp", "파운데이션", 4, "방대한 세계관과 철학적 질문이 돋보이지만 집중이 필요하다.", "2014-07-01", 4.1),
+    ContentModel(7, "/data/user/0/com.pakk.wivw.wivw/app_flutter/리얼스틸.webp", "리얼스틸", 4, "치열한 로봇 파이터들의 세계를 그려낸 블록버스터. 로봇 파이터의 불가능한 도전이 시작된다!", "2011-03-19", 3.7),
+    ContentModel(8, "/data/user/0/com.pakk.wivw.wivw/app_flutter/존 윅 4.webp", "존 윅 4", 5, "시리즈 중 가장 화려한 액션과 감정선이 균형을 이룬 작품.", "2025-04-04", 4.6),
+    ContentModel(9, "/data/user/0/com.pakk.wivw.wivw/app_flutter/익스트랙션 2.webp", "익스트랙션 2", 5, "현실감 있는 전투 장면과 거침없는 액션이 인상 깊다.", "2020-08-30", 4.0),
+    ContentModel(10, "/data/user/0/com.pakk.wivw.wivw/app_flutter/베를린.webp", "베를린", 5, "한국형 첩보물의 긴장감과 캐릭터간 심리전이 흥미롭다.", "2015-06-05", 3.9),
+    ContentModel(11, "/data/user/0/com.pakk.wivw.wivw/app_flutter/인시디어스: 더 레드 도어.webp", "인시디어스: 더 레드 도어", 6, "갑작스러운 공포보단 서서히 쌓이는 긴장감이 매력적이다.", "2015-06-19", 3.6),
+    ContentModel(12, "/data/user/0/com.pakk.wivw.wivw/app_flutter/셜록.webp", "셜록", 7, "캐릭터와 대사의 센스가 넘치고 사건 전개도 탁월하다.", "2011-01-28", 4.8),
+    ContentModel(13, "/data/user/0/com.pakk.wivw.wivw/app_flutter/더 글로리.webp", "더 글로리", 7, "복수극이지만 치밀한 구조 덕분에 추리적 재미도 충분했다.", "2023-05-30", 4.5),
+    ContentModel(14, "/data/user/0/com.pakk.wivw.wivw/app_flutter/위대한 쇼맨.webp", "위대한 쇼맨", 8, "눈과 귀를 사로잡는 뮤지컬 넘버들이 감동을 배가시킨다.", "2022-02-22", 4.7),
+    ContentModel(15, "/data/user/0/com.pakk.wivw.wivw/app_flutter/솔로지옥 시즌3.webp", "솔로지옥 시즌3", 9, "연애와 심리 게임이 절묘하게 얽혀 재미와 긴장감이 공존했다.", "2024-03-16", 4.0),
+    ContentModel(16, "/data/user/0/com.pakk.wivw.wivw/app_flutter/스파이 패밀리.webp", "스파이 패밀리", 10, "유쾌한 가족 코미디와 첩보물이 자연스럽게 어우러진다.", "2022-11-13", 4.3),
+    ContentModel(17, "/data/user/0/com.pakk.wivw.wivw/app_flutter/너의 이름은.webp", "너의 이름은", 10, "아름다운 작화와 감성적인 스토리가 인상 깊은 작품.", "2019-07-04", 4.9),
+    ContentModel(18, "/data/user/0/com.pakk.wivw.wivw/app_flutter/프렌즈.webp", "프렌즈", 11, "시대를 초월하는 웃음과 캐릭터의 매력이 여전히 유효하다.", "2011-04-30", 4.5),
+    ContentModel(19, "/data/user/0/com.pakk.wivw.wivw/app_flutter/진격의 거인.webp", "진격의 거인", 10, "갓 띵작", "2025-01-22", 5.0),
+  ];
+  var provider = Provider.of<MainProvider>(context, listen: false);
+
+  final prefs = await SharedPreferences.getInstance();
+  final jsonString = jsonEncode(newList.map((e) => e.toJson()).toList());
+  await prefs.setString('contentList', jsonString);
+  await prefs.setInt('contentIndex', 20);
+  provider.setContentList(newList);
 }

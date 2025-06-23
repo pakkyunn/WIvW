@@ -19,12 +19,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<String> items = ['최근 작성순', '평점 높은순', '평점 낮은순', '최신 시청순', '과거 시청순'];
-  String? sortType;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MainProvider>(
-      builder: (context, provider, child) {
+    return Consumer2<MainProvider, HomeProvider>(
+      builder: (context, mainProvider, homeProvider, child) {
         return Column(
           children: [
             Padding(
@@ -70,13 +69,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Material(
                     child: DropdownButton2<String>(
                       isExpanded: true,
-                      hint: Text(
-                        '최근 작성순',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Theme.of(context).hintColor,
-                        ),
-                      ),
+                      // hint: Text(
+                      //   "최근 작성순",
+                      //   style: TextStyle(
+                      //     fontSize: 14,
+                      //     color: Theme.of(context).hintColor,
+                      //   ),
+                      // ),
                       items: items
                           .map(
                             (String item) => DropdownMenuItem<String>(
@@ -88,29 +87,29 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           )
                           .toList(),
-                      value: sortType,
+                      value: homeProvider.sortType,
                       onChanged: (String? value) {
+                        homeProvider.setSortType(value!);
                         setState(() {
-                          sortType = value;
                           if (value == '최근 작성순') {
-                            provider.contentList.sort(
+                            mainProvider.contentList.sort(
                               (a, b) => b.index.compareTo(a.index),
                             );
                           } else if (value == '평점 높은순') {
-                            provider.contentList.sort(
+                            mainProvider.contentList.sort(
                               (a, b) => b.rating.compareTo(a.rating),
                             );
                           } else if (value == '평점 낮은순') {
-                            provider.contentList.sort(
+                            mainProvider.contentList.sort(
                               (a, b) => a.rating.compareTo(b.rating),
                             );
                           } else if (value == '최신 시청순') {
-                            provider.contentList.sort(
-                              (a, b) => a.watchDate.compareTo(b.watchDate),
+                            mainProvider.contentList.sort(
+                              (a, b) => b.watchDate.compareTo(a.watchDate),
                             );
                           } else if (value == '과거 시청순') {
-                            provider.contentList.sort(
-                              (a, b) => b.watchDate.compareTo(a.watchDate),
+                            mainProvider.contentList.sort(
+                              (a, b) => a.watchDate.compareTo(b.watchDate),
                             );
                           }
                         });
@@ -140,8 +139,8 @@ Widget _makeListItem(BuildContext context) {
   List<ContentModel> list;
   if (provider.categoryIdx >= 1 && provider.categoryIdx <= 12) {
     list = provider.contentList
-        .where((e) => e.category == provider.categoryIdx)
-        .toList();
+      .where((e) => e.category == provider.categoryIdx)
+      .toList();
   } else {
     list = provider.contentList;
   }
@@ -221,7 +220,7 @@ Widget _makeListItem(BuildContext context) {
                                 ),
                               ),
                               Text(
-                                dateToStringFull(DateTime.now()),
+                                list[index].watchDate,
                                 style: TextStyle(
                                   fontSize: 12.0,
                                   color: ColorFamily.skyBlue,

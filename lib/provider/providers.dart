@@ -56,6 +56,18 @@ class MainProvider extends ChangeNotifier {
   }
 }
 
+class HomeProvider extends ChangeNotifier {
+  String _sortType = "최근 작성순";
+
+  String get sortType => _sortType;
+
+  void setSortType(String sort) {
+    _sortType = sort;
+    notifyListeners();
+  }
+}
+
+
 class WriteProvider extends ChangeNotifier {
   bool _isEdited = false;
   int _selectedCategoryType = 0;
