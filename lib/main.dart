@@ -55,7 +55,7 @@ class _WIvWState extends State<WIvW>{
     // print("@@@: ${provider.contentList[2].title}");
     // print("@@@: ${provider.contentList[4].category}");
     // print("@@@: ${provider.contentList[4].review}");
-    print("@@@: ${provider.contentList[0].watchDate}");
+    // print("@@@: ${provider.contentList[0].watchDate}");
     // print("@@@: ${provider.contentList[0].rating}");
     // print("@@@: ${provider.contentIndex}");
   }

@@ -42,18 +42,6 @@ class _WriteScreenState extends State<WriteScreen> {
   final FocusNode _tempTitleFocusNode = FocusNode();
   final FocusNode _tempReviewFocusNode = FocusNode();
 
-  bool _isKeyboardOpen = false;
-
-  void _closeKeyboardAndPop(BuildContext context) async {
-    // 키보드 닫기
-    FocusScope.of(context).unfocus();
-
-    // 키보드 닫힘 애니메이션을 기다린 후 pop 호출
-    await Future.delayed(Duration(milliseconds: 100));
-
-    // 이제 Navigator.pop 호출
-    Navigator.pop(context);
-  }
 
   late int contentIndex;
   @override

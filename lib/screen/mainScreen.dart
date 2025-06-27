@@ -6,6 +6,7 @@ import 'package:wivw/main.dart';
 import 'package:wivw/screen/categoryScreen.dart';
 import 'package:wivw/screen/settingScreen.dart';
 import 'package:wivw/screen/writeScreen.dart';
+import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 
 import '../provider/providers.dart';
 import '../style/color.dart';
@@ -69,11 +70,10 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(),
-      body:
-          _screens[Provider.of<MainProvider>(
-            context,
-            listen: false,
-          ).bodyIndex],
+      body:_screens[Provider.of<MainProvider>(
+        context,
+        listen: false,
+      ).bodyIndex],
       bottomNavigationBar: mainBottomNavigationBar(),
     );
   }

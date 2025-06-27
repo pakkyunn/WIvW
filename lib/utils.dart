@@ -18,12 +18,9 @@ Future<void> checkFirstLaunch() async {
     final emptyListJson = jsonEncode([].map((e) => e.toJson()).toList()); // 최초 실행시 빈 리스트를 로컬에 저장
     await prefs.setString('contentList', emptyListJson);
     await prefs.setInt('contentIndex', 0); // 최초 실행시 인덱스 0을 로컬에 저장
-    print("@@@: isFirstLaunch");
     // 첫 실행 이후에는 false로 변경
     await prefs.setBool(firstLaunchKey, false);
   }
-
-  print("@@@: isNotFirstLaunch");
 }
 
 
