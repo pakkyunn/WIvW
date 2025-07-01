@@ -109,7 +109,7 @@ class _WriteScreenState extends State<WriteScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       SvgPicture.asset(
-                                        'lib/icons/write.svg',
+                                        'lib/asset/icons/write.svg',
                                         width: 40,
                                         height: 40,
                                       ),

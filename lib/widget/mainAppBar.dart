@@ -23,7 +23,7 @@ class _MainAppBarState extends State<MainAppBar> {
       return AppBar(
         leading: Padding(
           padding: const EdgeInsets.only(left: 16.0),
-          child: SvgPicture.asset('lib/icons/wIvw.svg'),
+          child: SvgPicture.asset('lib/asset/icons/wivw_text.svg'),
         ),
         title: Row(
           children: [

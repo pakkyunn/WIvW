@@ -21,30 +21,32 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<String> items = ['최근 작성순', '평점 높은순', '평점 낮은순', '최신 시청순', '과거 시청순'];
-  late List<ContentModel> _list;
+  List<ContentModel> _list = [];
   final TextEditingController _searchBarController = TextEditingController();
   final FocusNode _searchBarNode = FocusNode();
   String _searchKeyword = "";
 
-  Future<void> _initContentList() async {
-    var provider = Provider.of<MainProvider>(context, listen: false);
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initContentList();
+    });
+  }
 
+  void _initContentList() {
+    var provider = Provider.of<MainProvider>(context, listen: false);
     if (provider.categoryIdx >= 1 && provider.categoryIdx <= 12) {
-      setState(() {
-        _list = provider.contentList
-            .where((e) => e.category == provider.categoryIdx)
-            .toList();
-      });
+      _list = provider.contentList
+          .where((e) => e.category == provider.categoryIdx)
+          .toList();
     } else {
-      setState(() {
-        _list = provider.contentList;
-      });
+      _list = provider.contentList;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    _initContentList();
     return Consumer2<MainProvider, HomeProvider>(
       builder: (context, mainProvider, homeProvider, child) {
         return Column(
@@ -146,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             SizedBox(height: 8),
-            Expanded(child: _makeListItem(context, _list, _searchKeyword)),
+            Expanded(child: _makeListItem(context, _searchKeyword, mainProvider)),
           ],
         );
       },
@@ -156,14 +158,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
 Widget _makeListItem(
   BuildContext context,
-  List<ContentModel> list,
   String keyword,
+  MainProvider provider
 ) {
+  var list =  provider.contentList;
+
+  if (provider.categoryIdx >= 1 && provider.categoryIdx <= 12) {
+    list = provider.contentList
+        .where((e) => e.category == provider.categoryIdx)
+        .toList();
+  } else {
+    list = provider.contentList;
+  }
+
   if (keyword != "") {
     list = list.where((e) => e.title.contains(keyword)).toList();
   } else {
     list = list;
   }
+
   return ListView.builder(
     shrinkWrap: true,
     itemCount: list.length,

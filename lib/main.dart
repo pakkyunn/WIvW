@@ -9,7 +9,6 @@ import 'package:wivw/style/color.dart';
 import 'package:wivw/utils.dart';
 
 import 'model/content_model.dart';
-import 'widget/mainBottomNavigationBar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +51,7 @@ class _WIvWState extends State<WIvW>{
     provider.setContentIndex(contentIndex!);
     // print("@@@: ${provider.contentList[2].index}");
     // print("@@@: ${provider.contentList[0].posterPath}");
-    // print("@@@: ${provider.contentList[2].title}");
+    print("@@@: ${provider.contentList[0].title}");
     // print("@@@: ${provider.contentList[4].category}");
     // print("@@@: ${provider.contentList[4].review}");
     // print("@@@: ${provider.contentList[0].watchDate}");

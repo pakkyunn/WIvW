@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wivw/model/content_model.dart';
+import 'package:wivw/provider/providers.dart';
 import 'package:wivw/style/color.dart';
 import 'package:wivw/style/textStyle.dart';
 import 'package:intl/intl.dart';
@@ -92,3 +95,4 @@ DateTime stringToDate(String date) {
 
   return DateTime(year, month, day);
 }
+

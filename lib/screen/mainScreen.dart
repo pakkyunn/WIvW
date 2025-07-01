@@ -7,11 +7,11 @@ import 'package:wivw/screen/categoryScreen.dart';
 import 'package:wivw/screen/settingScreen.dart';
 import 'package:wivw/screen/writeScreen.dart';
 import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
+import 'package:wivw/utils.dart';
 
 import '../provider/providers.dart';
 import '../style/color.dart';
 import '../widget/mainAppBar.dart';
-import '../widget/mainBottomNavigationBar.dart';
 import 'homeScreen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -91,34 +91,34 @@ class _MainScreenState extends State<MainScreen> {
         // backgroundColor: ColorFamily.lightPurple,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: SvgPicture.asset('lib/icons/home.svg'),
+            icon: SvgPicture.asset('lib/asset/icons/home.svg'),
             label: 'Home',
             activeIcon: SvgPicture.asset(
-              'lib/icons/home.svg',
+              'lib/asset/icons/home.svg',
               color: ColorFamily.mint,
             ),
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset('lib/icons/write.svg'),
+            icon: SvgPicture.asset('lib/asset/icons/write.svg'),
             label: 'Write',
             activeIcon: SvgPicture.asset(
-              'lib/icons/write.svg',
+              'lib/asset/icons/write.svg',
               color: ColorFamily.mint,
             ),
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset('lib/icons/category.svg'),
+            icon: SvgPicture.asset('lib/asset/icons/category.svg'),
             label: 'Category',
             activeIcon: SvgPicture.asset(
-              'lib/icons/category.svg',
+              'lib/asset/icons/category.svg',
               color: ColorFamily.mint,
             ),
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset('lib/icons/settings.svg'),
+            icon: SvgPicture.asset('lib/asset/icons/settings.svg'),
             label: 'Settings',
             activeIcon: SvgPicture.asset(
-              'lib/icons/settings.svg',
+              'lib/asset/icons/settings.svg',
               color: ColorFamily.mint,
             ),
           ),
@@ -127,6 +127,9 @@ class _MainScreenState extends State<MainScreen> {
         selectedItemColor: ColorFamily.mint,
         onTap: (index) {
           if (provider.bottomNavigationIdx != index) {
+            _onItemTapped(index);
+            provider.setMainAppBarName("내가", ColorFamily.lightPurple);
+          }else if(index == 0){
             _onItemTapped(index);
             provider.setMainAppBarName("내가", ColorFamily.lightPurple);
           }else if(index == 2){

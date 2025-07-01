@@ -44,6 +44,7 @@ dependencies:
   path_provider: ^2.1.1
   flutter_image_compress: ^2.4.0
   material_floating_search_bar_2: ^0.5.0
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -67,7 +68,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - lib/icons/
+    - lib/asset/
+    - lib/asset/icons/
     - lib/asset/poster/
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -98,3 +100,13 @@ flutter:
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "lib/asset/wivw_icon.png"
+  #    아이콘 각각 반영 시
+  #    image_path_ios: "assets/images/icon.png"
+  #    image_path_android: "assets/images/round-icon.png"
+  remove_alpha_ios: true
+  min_sdk_android: 21
