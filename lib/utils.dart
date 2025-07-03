@@ -73,25 +73,22 @@ void showSnackBar(BuildContext context, String message){
   );
 }
 
-/// Datetime 객체를 날짜 표시 형식으로 변환
-String dateToStringFull(DateTime date) {
-  String formattedDay = DateFormat('yyyy-mm-dd').format(date);
+/// Datetime 객체를 날짜 표시 문자열 형식으로 변환
+String dateToString(DateTime date) {
+  String formattedDay = DateFormat('yyyy-MM-dd').format(date);
   // String year = DateFormat('yyyy').format(date);
   // String month = date.month.toString().padLeft(2, " ");
   // String day = date.day.toString().padLeft(2, " ");
   return formattedDay;
 }
 
-/// 'yy년 M월 d일' 형태의 문자열 날짜 데이터를 DateTime으로 변환
+/// 'yyyy-mm-dd' 형태의 문자열 날짜 데이터를 DateTime으로 변환
 DateTime stringToDate(String date) {
   List<String> splitDate = date.split("-");
-  int year = 2000+int.parse(splitDate[0]) > DateTime.now().year
-  ? 1900+int.parse(splitDate[0])
-  : 2000+int.parse(splitDate[0]);
 
-  int month = int.parse(splitDate[1].replaceAll(" ", ""));
-
-  int day = int.parse(splitDate[2].replaceAll(" ", ""));
+  int year = int.parse(splitDate[0]);
+  int month = int.parse(splitDate[1]);
+  int day = int.parse(splitDate[2]);
 
   return DateTime(year, month, day);
 }

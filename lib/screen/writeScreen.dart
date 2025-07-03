@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wivw/enums.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:wivw/main.dart';
 
 import '../model/content_model.dart';
 import '../provider/providers.dart';
@@ -43,15 +44,6 @@ class _WriteScreenState extends State<WriteScreen> {
   final FocusNode _tempReviewFocusNode = FocusNode();
 
 
-  late int contentIndex;
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      contentIndex = Provider.of<MainProvider>(context, listen: false).contentIndex;
-    });
-  }
-
   @override
   void dispose() {
     _deleteCache(_tempPosterImagePath);
@@ -62,8 +54,8 @@ class _WriteScreenState extends State<WriteScreen> {
   Widget build(BuildContext context) {
     var deviceWidth = MediaQuery.of(context).size.width;
     // var deviceHeight = MediaQuery.of(context).size.height;
-    return Consumer<WriteProvider>(
-      builder: (context, provider, child) {
+    return Consumer2<MainProvider, WriteProvider>(
+      builder: (context, mainProvider, writeProvider, child) {
         return ListView(
           padding: const EdgeInsets.all(16.0),
           children: [
@@ -91,7 +83,7 @@ class _WriteScreenState extends State<WriteScreen> {
                             source: ImageSource.gallery,
                           );
                           if (pickedFile != null) {
-                            provider.setEditState(true);
+                            writeProvider.setEditState(true);
                             setState(() {
                               _tempPosterImagePath = pickedFile.path;
                               // posterImage = pickedFile;
@@ -165,7 +157,7 @@ class _WriteScreenState extends State<WriteScreen> {
                             setState(() {
                               _tempTitle = value;
                             });
-                            provider.setEditState(true);
+                            writeProvider.setEditState(true);
                           },
                           onFieldSubmitted: (value) {
                             FocusScope.of(context).unfocus();
@@ -215,12 +207,12 @@ class _WriteScreenState extends State<WriteScreen> {
                             ),
                           );
                           setState(() {
-                            _tempCategory = provider.selectedCategoryType;
+                            _tempCategory = writeProvider.selectedCategoryType;
                           });
                           
                           if(_tempCategory != 0) {
                             _tempCategoryText = "${CategoryType.getNameByNumber(_tempCategory)}";
-                            provider.setEditState(
+                            writeProvider.setEditState(
                               true,
                             );
                           }
@@ -273,10 +265,10 @@ class _WriteScreenState extends State<WriteScreen> {
                             setState(() {
                               _tempReview = value;
                             });
-                            provider.setEditState(true);
+                            writeProvider.setEditState(true);
                           },
                           // onFieldSubmitted: (value) {
-                          //   provider.setEditState(true);
+                          //   writeProvider.setEditState(true);
                           // },
                           maxLength: 500,
                           maxLines: null,
@@ -348,9 +340,9 @@ class _WriteScreenState extends State<WriteScreen> {
                               setState(() {
                                 // _nickNameFocusNode.unfocus();
                                 // _profileMessageFocusNode.unfocus();
-                                _tempWatchDate = dateToStringFull(date);
+                                _tempWatchDate = dateToString(date);
                               });
-                              provider.setEditState(true);
+                              writeProvider.setEditState(true);
                             },
                             onCancel: () {
                             //   _nickNameFocusNode.unfocus();
@@ -407,7 +399,7 @@ class _WriteScreenState extends State<WriteScreen> {
                         setState(() {
                           _tempRating = double.parse(value.toStringAsFixed(1));
                         });
-                        provider.setEditState(true);
+                        writeProvider.setEditState(true);
                       },
                     ),
                   ),
@@ -432,12 +424,12 @@ class _WriteScreenState extends State<WriteScreen> {
                               _tempWatchDate,
                             )
                             ? {
-                                _saveData(context, contentIndex, await _cacheToAppStorage(_tempPosterImagePath, _tempTitle), _tempTitle, _tempCategory, _tempReview, _tempWatchDate, _tempRating),
-                                Provider.of<MainProvider>(context, listen: false).showBodyScreen(0),
-                                Provider.of<MainProvider>(context, listen: false).setBottomNavigationIdx(0),
+                                _saveData(context, mainProvider, mainProvider.contentIndex, await _cacheToAppStorage(_tempPosterImagePath, _tempTitle), _tempTitle, _tempCategory, _tempReview, _tempWatchDate, _tempRating),
+                                mainProvider.showBodyScreen(0),
+                                mainProvider.setBottomNavigationIdx(0),
                                 //작성완료 후 메인화면으로 이동
                                 showSnackBar(context, "감상평이 작성되었습니다!"),
-                                provider.setEditState(false),
+                                writeProvider.setEditState(false),
                               }
                             : Fluttertoast.showToast(
                                 msg: "모든 항목을 작성해주세요",
@@ -505,6 +497,7 @@ Future<String> _cacheToAppStorage(String imagePath, String name) async {
 
 Future<void> _saveData(
     BuildContext context,
+    MainProvider provider,
     int index,
     String posterPath,
     String title,
@@ -514,7 +507,6 @@ Future<void> _saveData(
     double rating
     ) async {
   var model = ContentModel(index, posterPath, title, category, review, watchDate, rating);
-  var provider = Provider.of<MainProvider>(context, listen: false);
   var oldList = provider.contentList;
   var newList = List<ContentModel>.from(oldList)..insert(0, model);
 
@@ -523,6 +515,7 @@ Future<void> _saveData(
   await prefs.setString('contentList', jsonString);
   await prefs.setInt('contentIndex', model.index+1);
   provider.setContentList(newList);
+  provider.setContentIndex(model.index+1);
 }
 
 Future<void> _deleteCache(String cachePath) async {

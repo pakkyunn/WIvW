@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:wivw/main.dart';
 import 'package:wivw/screen/categoryScreen.dart';
-import 'package:wivw/screen/settingScreen.dart';
 import 'package:wivw/screen/writeScreen.dart';
 import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 import 'package:wivw/utils.dart';
@@ -26,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
     HomeScreen(),
     WriteScreen(),
     CategoryScreen(),
-    SettingScreen(),
+    // SettingScreen(),
   ];
 
   Future<void> _onItemTapped(int index) async {
@@ -36,17 +35,22 @@ class _MainScreenState extends State<MainScreen> {
       final result = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('작성 중인 내용이 있습니다'),
-          content: Text('작성 내용을 저장하지 않고 이동하시겠습니까?'),
+          title: Text('감상평을 작성 중입니다'),
+          content: Text('내용을 저장하지 않고 이동하시겠습니까?'),
           actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: Text('취소'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: Text('확인'),
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: Text('취소'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pop(context, true),
+                  child: Text('확인'),
+                ),
+              ],
+            )
           ],
         ),
       );
@@ -114,14 +118,14 @@ class _MainScreenState extends State<MainScreen> {
               color: ColorFamily.mint,
             ),
           ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset('lib/asset/icons/settings.svg'),
-            label: 'Settings',
-            activeIcon: SvgPicture.asset(
-              'lib/asset/icons/settings.svg',
-              color: ColorFamily.mint,
-            ),
-          ),
+          // BottomNavigationBarItem(
+          //   icon: SvgPicture.asset('lib/asset/icons/settings.svg'),
+          //   label: 'Settings',
+          //   activeIcon: SvgPicture.asset(
+          //     'lib/asset/icons/settings.svg',
+          //     color: ColorFamily.mint,
+          //   ),
+          // ),
         ],
         currentIndex: provider.bottomNavigationIdx,
         selectedItemColor: ColorFamily.mint,

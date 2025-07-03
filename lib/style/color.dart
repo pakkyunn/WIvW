@@ -11,6 +11,7 @@ class ColorFamily{
   static const Color pink = Color(0xffFF69B4);
   static const Color coral = Color(0xffFF6F61);
   static const Color mint = Color(0xff98FF98);
+  static const Color lightYellow = Color(0xffFDF0D0);
 }
 
 class FontColor{

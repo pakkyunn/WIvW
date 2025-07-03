@@ -186,7 +186,7 @@ Widget _makeListItem(
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => DetailScreen(index: index)),
+            MaterialPageRoute(builder: (context) => DetailScreen(index: provider.contentList[index].index)),
           );
         },
         child: Column(

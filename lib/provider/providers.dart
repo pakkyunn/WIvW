@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wivw/model/content_model.dart';
 import 'package:wivw/style/color.dart';
 
@@ -49,6 +52,15 @@ class MainProvider extends ChangeNotifier {
   void setContentIndex(int idx) {
     _contentIndex = idx;
     notifyListeners();
+  }
+
+  Future<void> deleteContent(int contentIndex) async {
+    _contentList.removeWhere((e) => e.index == contentIndex);
+    notifyListeners();
+
+    final prefs = await SharedPreferences.getInstance();
+    final jsonString = jsonEncode(_contentList.map((e) => e.toJson()).toList());
+    await prefs.setString('contentList', jsonString);
   }
 
   void providerNotify(){
