@@ -67,7 +67,6 @@ class _DetailScreenAppBarState extends State<DetailScreenAppBar> {
             );
 
             if (result == true) {
-              print("@@@: ${widget.index}");
               Provider.of<MainProvider>(context, listen: false).deleteContent(widget.index);
               Navigator.pop(context, true);
               showSnackBar(context, "감상평이 삭제되었습니다.");
